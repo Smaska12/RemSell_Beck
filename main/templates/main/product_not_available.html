@@ -1,0 +1,15 @@
+{% extends 'main/log_layout.html' %}
+{% load static %}
+
+{% block meta-title %}RemSell{% endblock %}
+{% block meta-styles %}
+    <link rel="stylesheet" href="{% static 'main/css/product_not_found_page.css' %}">
+{% endblock %}
+{% block meta-body %}
+	<main class="--">
+        <div class="content">
+            <h1>Продукт недоступен</h1>
+            <p>Товар, который вы ищете, больше не доступен.</p>
+        </div>
+    </main>
+{% endblock %}

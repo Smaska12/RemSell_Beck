@@ -1,0 +1,346 @@
+{% extends 'main/log_layout.html' %}
+{% load static %}
+
+{% block meta-title %}RemSell{% endblock %}
+{% block meta-styles %}
+    <link rel="stylesheet" href="{% static 'main/css/product_page.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/product_detail_changes.css' %}">
+    <script src="{% static 'main/js/mini_chat.js' %}"></script>
+    <script src="{% static 'main/js/rating.js' %}"></script>
+    <script src="{% static 'main/js/rating_of_product.js' %}"></script>
+{% endblock %}
+{% block meta-body %}
+	<main class="product-catalog-details">
+
+        <div class="product-details-container">
+            <div class="product-details">
+                <div class="announcement_element">
+                    <p>{{ product.created_at }}</p>
+                    <h1>{{ product.name }}</h1>
+                </div>
+
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+
+                <div class="announcement_container">
+                    <div>
+                        <h3>Продавец</h3>
+                        <p>{{ product.seller.username }}</p>
+                    </div>
+                    <div>
+                        <h3>Количество</h3>
+                        <p>{{ product.quantity }}</p>
+                    </div>
+                    <div>
+                        <h3>Категория</h3>
+                        <div class="truncate" id="truncateText">
+                            {% for category in product_categories %}
+                                {{ category.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </div>
+                        <p>{{ product.category.name }}</p>
+                    </div>
+                    <div>
+                        <h3>Цена</h3>
+                        <p>{{ product.price }} ₽</p>
+                    </div>
+                </div>
+
+                <div class="short-description">
+                    <h3>Краткое описание: </h3>
+                    <p>{{ product.description|linebreaksbr }}</p>
+                </div>
+
+                <div class="dw">
+                    {% if not order.transaction.is_cancelled %}
+                        {% if user != seller %}
+                            {% if reserved_order %}
+                                <form action="{% url 'pay_order' reserved_order.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Оплатить</button>
+                                </form>
+                            {% elif order and order.paid and not order.delivered %}
+                                <form action="{% url 'confirm_payment' order.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success">Подтвердить оплату</button>
+                                </form>
+                            {% elif order.delivered %}
+                                <!-- <p>Заказ был доставлен</p> -->
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+
+
+                <div class="view_rating">
+                    <h3>Средняя оценка товара</h3>
+                    <div class="view_rating_list">
+                        <p><span class="first-digit">{{ avg_rating|floatformat:2|default:"0"|first }}</span>{{ avg_rating|floatformat:2|slice:"1:" }} из 5,00</p>
+                        <div class="rating" data-rating="{{ avg_rating }}">
+                            <svg class="star-1 rating-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                            </svg><svg class="star-2 rating-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                            </svg><svg class="star-3 rating-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                            </svg><svg class="star-4 rating-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                            </svg><svg class="star-5 rating-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if request.user != seller %}
+                <div class="mini-chat-container">
+                    <div class="chat-box-header">
+                        {% if seller != request.user %}
+                        <a href="{% url 'view_other_profile' seller.username %}">
+                            <div class="chat-box-main-elements">
+                                <div class="icon-chaters">
+                                    <img src="{{ seller.userprofile.avatar.url }}" alt="{{ interlocutor.username }}">
+                                </div>
+                                <div class="name-chaters">
+                                    <h1>{{ seller.username }}</h1>
+                                    <p>{{ seller.userprofile.status }}</p>
+                                </div>
+                            </div>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'view_other_profile' seller.username %}">
+                            <div class="chat-box-main-elements">
+                                <div class="icon-chaters">
+                                    <img src="{{ seller.userprofile.avatar.url }}" alt="{{ interlocutor.username }}">
+                                </div>
+                                <div class="name-chaters">
+                                    <h1>{{ seller.username }}</h1>
+                                    <p>{{ seller.userprofile.status }}</p>
+                                </div>
+                            </div>
+                        </a>
+                        {% endif %}
+
+                        <div class="settings-icon1 unique-settings-icon">
+                            <button class="settings-box-header" onclick="toggleDropdown()">...</button>
+                            <div id="dropdown-content" class="dropdown-content">
+                                <a href="#" onclick="reportUser('{{ seller.id }}', '{{ chat.id }}')">Пожаловаться</a>
+                                {% if current_user_is_blocker %}
+                                    <a href="#" onclick="unblockUser('{{ seller.id }}', '{{ chat.id }}')">Разблокировать</a>
+                                {% elif not user_is_blocked %}
+                                    <a href="#" onclick="blockUser('{{ seller.id }}', '{{ chat.id }}')">Заблокировать</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Контейнер для отображения сообщений -->
+                    <div class="message-full-box" id="message-full-box">
+                        {% for message in messages %}
+                            <div class="chat-message">
+                                <div class="message-sender">{{ message.sender.username }}</div>
+                                <div class="message-content">{{ message.content }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    {% if not user_is_blocked %}
+                        <!-- Форма отправки сообщений -->
+                        <form id="message-form">
+                            {% csrf_token %}
+                            <input type="hidden" id="chat-id" name="chat_id" value="{{ chat.id }}">
+                            <input type="text" id="message-input" name="content" placeholder="Type your message here">
+                            <button type="submit" class="arrow">➔</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if order.delivered %}
+                {% if request.user != seller %}
+                    {% if not has_review %}
+                        <div class="review-form-container">
+                            <form id="review-form" method="post" action="{% url 'leave_review' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                <textarea name="review_content" placeholder="Напишите ваш отзыв здесь..." class="review-textarea"></textarea>
+                                <div class="sender_rating">
+                                    <div class="rating" data-rating="{{ avg_rating }}">
+                                        <svg class="star filled-star" data-value="1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                        </svg>
+                                        <svg class="star filled-star" data-value="2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                        </svg>
+                                        <svg class="star filled-star" data-value="3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                        </svg>
+                                        <svg class="star filled-star" data-value="4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                        </svg>
+                                        <svg class="star filled-star" data-value="5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                        </svg>
+                                        <input type="hidden" name="rating" id="rating-input" value="0">
+                                    </div>
+                                </div>
+                                <button type="submit" id="submit-review">Submit Review</button>
+                            </form>
+                        </div>
+                    {% endif %}
+
+
+
+                    <ul class="user-reviews">
+                        {% for review in reviews %}
+                            {% if review.user == request.user and review.product == product %}
+                                <li class="review">
+                                    <div class="rating">
+                                        {% for i in stars_range %}
+                                            {% if i <= review.value %}
+                                                <svg class="reviews-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                                </svg>
+                                            {% else %}
+                                                <svg class="rating-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                                </svg>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <div class="review-first-element">
+                                        <img src="{{ review.user.userprofile.avatar.url }}" alt="User Avatar">
+                                        <div class="review-content">
+                                            <p class="username">{{ review.user.username }}</p>
+                                            <p>
+                                                {% if review.product %}
+                                                    <a href="{{ review.product.get_absolute_url }}">{{ review.product.name }}</a>
+                                                {% else %}
+                                                    <a href="{{ review.seller.get_absolute_url }}">Товар снят с продажи</a>
+                                                {% endif %}
+                                            </p>
+
+                                            {% if review.image %}
+                                                <img src="{{ review.image.url }}" alt="Review Image">
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <p class="review-text">{{ review.review }}</p>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% else %}
+
+            {% endif %}
+        </div>
+    </main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    var textElement = document.getElementById("truncateText");
+    var textContent = textElement.textContent.trim(); // Get the text content and remove leading/trailing spaces
+
+    // Split text content into words using comma as separator
+    var words = textContent.split(", ");
+
+    if (words.length >= 2) {
+        // Take the first five words
+        var slicedText = words.slice(0, 2).join(", ");
+        slicedText += " ...";
+        textElement.textContent = slicedText;
+    }
+});
+
+    function blockUser(userId, chatId) {
+    $.ajax({
+        url: '/block_user/',
+        method: 'POST',
+        data: {
+            user_id: userId,
+            chat_id: chatId,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function(response) {
+            if (response.success) {
+                location.reload();  // Reload the page to update the block/unblock state
+            } else {
+                alert('Ошибка при блокировке пользователя: ' + response.error);
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Ошибка при блокировке пользователя: ' + error);
+        }
+    });
+}
+
+function unblockUser(userId, chatId) {
+    $.ajax({
+        url: '/unblock_user/',
+        method: 'POST',
+        data: {
+            user_id: userId,
+            chat_id: chatId,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function(response) {
+            if (response.success) {
+                location.reload();  // Обновление страницы для изменения состояния блокировки
+            } else {
+                alert('Ошибка при разблокировке пользователя: ' + response.error);
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Ошибка при разблокировке пользователя: ' + error);
+        }
+    });
+}
+
+function reportUser(userId, chatId) {
+    var reason = prompt("Пожалуйста, укажите причину вашей жалобы:");
+    if (reason !== null) {
+        $.ajax({
+            url: '/report_user/',
+            method: 'POST',
+            data: {
+                user_id: userId,
+                chat_id: chatId,
+                reason: reason,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert('Ваша жалоба отправлена успешно.');
+                    // Можете добавить дополнительные действия после отправки жалобы
+                } else {
+                    alert('Ошибка при отправке жалобы: ' + response.error);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Ошибка при отправке жалобы: ' + error);
+            }
+        });
+    }
+}
+
+
+// Function to get CSRF token from cookies (for Django)
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+
+{% endblock %}

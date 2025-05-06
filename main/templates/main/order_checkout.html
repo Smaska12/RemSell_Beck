@@ -1,0 +1,93 @@
+{% extends 'main/log_layout.html' %}
+{% load static %}
+
+{% block meta-title %}RemSell{% endblock %}
+{% block meta-styles %}
+    <link rel="stylesheet" href="{% static 'main/css/order_details.css' %}">
+<!--    <script src="{% static 'main/js/order_checkout.js' %}"></script>-->
+{% endblock %}
+{% block meta-body %}
+<main>
+    <h1>Оформление заказа</h1>
+
+<!--    <input type="text" id="address" name="address" list="addresses" placeholder="Введите адрес доставки">-->
+<!--    <datalist id="addresses"></datalist>-->
+
+    <form class="form_order" method="post" action="{% url 'order_checkout' product_id=product.id %}">
+    {% csrf_token %}
+
+    <!-- Поле для ввода имени -->
+    <p>Имя</p>
+    {{ form.first_name }}
+
+    <!-- Поле для ввода фамилии -->
+    <p>Фамилия</p>
+    {{ form.last_name }}
+
+    <!-- Поле для ввода отчества -->
+    <p>Отчество</p>
+    {{ form.patronymic }}
+
+    <!-- Поле для ввода email -->
+    <p>Email</p>
+    {{ form.email }}
+
+    <!-- Поле для ввода номера телефона -->
+    <p>Номер телефона</p>
+    {{ form.phone_number }}
+
+    <!-- Поле для выбора города -->
+    <label for="city">Город</label>
+    <input type="text" id="city" name="city" list="cities" placeholder="Выберите город">
+    <datalist id="cities">
+        {% for city in cities %}
+            <option value="{{ city }}">
+        {% endfor %}
+    </datalist>
+
+    <!-- Поле для ввода адреса -->
+    <label for="address">Адрес доставки</label>
+    <input type="text" id="address" name="address" list="addresses" placeholder="Введите адрес доставки">
+    <datalist id="addresses"></datalist>
+
+    <!-- Поле для выбора способа оплаты -->
+    <p>Способ оплаты</p>
+    {{ form.payment_method }}
+
+    <!-- Поле для выбора способа доставки -->
+    <p>Способ доставки</p>
+    {{ form.delivery_method }}
+
+    <!-- Поле для ввода количества -->
+    <p>Количество</p>
+    {{ form.quantity }}
+
+    <button type="submit">Оформить заказ</button>
+</form>
+
+<script>
+document.getElementById('city').addEventListener('input', function() {
+    var addressInput = document.getElementById('address');
+    addressInput.value = '';  // Очищаем поле адреса при изменении города
+
+    var selectedCity = this.value;
+    var datalist = document.getElementById('addresses');
+
+    fetch('/autocomplete-address/?city=' + selectedCity)
+        .then(response => response.json())
+        .then(data => {
+            datalist.innerHTML = '';
+            data.addresses.forEach(function(address) {
+                var option = document.createElement('option');
+                option.value = address;
+                datalist.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+});
+</script>
+
+
+
+</main>
+{% endblock %}

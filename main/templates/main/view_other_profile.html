@@ -1,0 +1,118 @@
+{% extends 'main/log_layout.html' %}
+{% load static %}
+
+{% block meta-title %}RemSell{% endblock %}
+{% block meta-styles %}
+	<link rel="stylesheet" href="{% static 'main/css/main_profile_user.css' %}">
+    <script src="{% static 'main/js/rating_of_product.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static 'main/js/bio.js' %}"></script>
+{% endblock %}
+{% block meta-body %}
+
+	<main>
+        <div class="user-profile-page">
+            <div class="user-info">
+                <div class="avatar-info">
+                    {% if other_user_avatar %}
+                        <img src="{{ other_user_avatar }}" alt="User Avatar">
+                    {% endif %}
+                    <div class="name-status">
+                        <h2>{{ other_user.username }}</h2>
+                        <p class="user-status" id="user-status">{{ other_user_profile.status }}</p>
+                    </div>
+                </div>
+                <p>Дата регистрации: {{ other_user.date_joined }}</p>
+            </div>
+        </div>
+
+        <div class="profile-info-bio">
+            <h2>Описание</h2>
+
+            <div class="user-bio">
+                <div class="editable-bio" id="editable-bio">
+                    <div class="bio-text">{{ other_user_profile.bio|linebreaksbr }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-info">
+
+            <!-- Форма фильтрации товаров -->
+            <div class="product-filter">
+                <h3>Последние публикации</h3>
+                <form id="review-filter-form" method="GET" action="{% url 'view_other_profile' other_user.username %}">
+                    <label for="rating">Фильтр по рейтингу:</label>
+                    <select name="rating" id="rating">
+                        <option value="">Все оценки</option>
+                        <option value="0">Без оценки</option>
+                        <option value="5">★★★★ - ★★★★★</option>
+                        <option value="4">★★★ - ★★★★</option>
+                        <option value="3">★★ - ★★★</option>
+                        <option value="2">★ - ★★</option>
+<!--                        <option value="1">< ★</option>-->
+                    </select>
+                    <button type="submit">Применить</button>
+                </form>
+            </div>
+
+            <!-- Активность на сайте -->
+            <div class="user-activity">
+                <ul>
+                    {% for product in other_user_products %}
+                        <li class="created_products_by_profile">
+                            <a href="{% url 'product_detail' product.id %}">
+                                <img src="{{ product.image.url }}" alt="{{ product.title }}">
+                                <div class="product-details-profile">
+                                    <p class="product-title dt1">{{ product.name }}</p>
+                                    <p class="product-date dt">Дата публикации: {{ product.created_at }}</p>
+                                    {% if product.avg_rating %}
+                                        <p><span class="first-digit">{{ product.avg_rating|floatformat:2|default:"0"|first }}</span>{{ product.avg_rating|floatformat:2|slice:"1:" }} из 5,00</p>
+                                    {% else %}
+                                        <p><span class="first-digit">0</span>,00 из 5,00</p>
+                                    {% endif %}
+                                    {% for i in stars_range %}
+                                        {% if i <= product.avg_rating %}
+                                            <svg class="reviews-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                            </svg>
+                                        {% else %}
+                                            <svg class="rating-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                            </svg>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </a>
+                        </li>
+                    {% empty %}
+                        <li>Пользователь еще не опубликовал ни одного товара.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </main>
+
+<script>
+    // Периодически отправлять запросы на сервер для обновления статуса пользователя
+setInterval(updateUserStatus, 3000); // каждые 5 минут (300000 миллисекунд)
+
+function updateUserStatus() {
+    fetch('/update-user-status/')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+<!--            console.log('User status updated:', data.status);-->
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error.message);
+        });
+}
+
+</script>
+
+{% endblock %}

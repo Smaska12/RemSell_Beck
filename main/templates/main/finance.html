@@ -1,0 +1,110 @@
+{% extends 'main/log_layout.html' %}
+{% load static %}
+
+{% block meta-title %}RemSell{% endblock %}
+{% block meta-styles %}
+    <link rel="stylesheet" href="{% static 'main/css/finance_page.css' %}">
+{% endblock %}
+{% block meta-body %}
+	<main>
+        <h1>Мои покупки</h1>
+        <div class="finance-details">
+            <h2>Мои покупки</h2>
+            <div class="tc-header text-bold">
+            <div class="hidden-xs mw150">Дата</div>
+            <div class="hidden-xs">Заказ</div>
+            <div>Описание</div>
+            <div class="hidden-xs mw150">Продавец</div>
+            <div class="hidden-xs">Статус</div>
+            <div class="tc-price col-lg-2">Сумма</div>
+            </div>
+            <ul>
+                {% for order in orders %}
+                <a href="{% url 'product_detail_with_chat' product_id=order.product.id order_id=order.id %}">
+                    <li>
+                        <div class="hidden-xs mw150"><p>{{ order.created_at }}</p></div>
+                        <div class="hidden-xs"><p>#{{ order.serial_number }}</p></div>
+                        <div><p>{{ order.product.name }}</p></div>
+                        <div class="hidden-xs mw150"><p>{{ order.product.seller }}</p></div>
+                        <div class="hidden-xs">
+                            <p>{% if order.delivered %} Доставлен {% else %} Не доставлен {% endif %}</p>
+<!--                            <p>{% if order.paid %} Оплачен {% else %} Не оплачен {% endif %}</p>-->
+                            {% if not order.paid %}
+                                <form id="pay-form-{{ order.id }}" method="post" action="{% url 'pay_order' order.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="pay-button">Оплатить</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                        <div class="tc-price col-lg-2"><p>{{ order.total_amount }}</p></div>
+                    </li>
+                </a>
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for sale in sales %}
+                <a href="{% url 'product_detail_with_chat' product_id=sale.product.id order_id=sale.id %}">
+                    <li>
+                        <div class="hidden-xs mw150"><p>{{ sale.created_at }}</p></div>
+                        <div class="hidden-xs"><p>#{{ sale.serial_number }}</p></div>
+                        <div><p>{{ sale.product.name }}</p></div>
+                        <div class="hidden-xs mw150"><p>{{ sale.product.seller }}</p></div>  <!-- Use sale.product.seller -->
+                        {% if sale.transaction.is_cancelled %}
+                            <div class="hidden-xs">
+                                <p class="imitate-button-backend">Заказ отменен</p>
+                            </div>
+                        {% else %}
+                            <div class="hidden-xs">
+                                <p>{% if sale.delivered %} Доставлен {% else %} Не доставлен {% endif %}</p>
+                                <p class="imitate-button-paid {% if sale.paid %}paid{% else %}not-paid{% endif %}">{% if sale.paid %} Оплачен {% else %} Не оплачен {% endif %}</p>
+                            </div>
+                        {% endif %}
+                        <div class="tc-price col-lg-2">
+                            {% if not sale.paid %}
+                                <p class="not-paid">{{ sale.total_amount }}</p>
+                            {% else %}
+                                {% if not sale.transaction.is_cancelled %}
+                                    <p class="paid-negative">-{{ sale.total_amount }}</p>
+                                {% else %}
+                                    <p class="paid-positive">+{{ sale.total_amount }}</p>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </li>
+                </a>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.pay-button').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const form = this.closest('form');
+                    fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}',
+                        },
+                        body: new FormData(form),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message === 'Payment successful') {
+                            // Optionally update UI to reflect successful payment
+                            location.reload(); // Reload the page to reflect changes
+                        } else {
+                            // Optionally handle error messages
+                            console.error('Payment error:', data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Payment error:', error);
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}

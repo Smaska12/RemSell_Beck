@@ -1,0 +1,156 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% block meta-title %}{% endblock %}</title>
+	<link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+	<link rel="stylesheet" href="{% static 'main/css/entryed.css' %}">
+	<link rel="stylesheet" href="{% static 'main/css/footer.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="{% static 'main/js/main.js' %}"></script>
+    <script src="{% static 'main/js/update_status_user.js' %}"></script>
+    <script src="{% static 'main/js/log_search_moment.js' %}"></script>
+    {% block meta-styles %}
+    {% endblock %}
+</head>
+<body>
+    <header class="site-header">
+	    <div class="logo">
+	        <a href="{% url 'log' %}" class="logo">
+			    <img class="logotip" src="{% static 'main/img/remsell-img.png' %}" alt="">
+			</a>
+	    </div>
+
+		<div class="catalog-bar">
+			<div class="links">
+				<a href="#catalog" id="catalog-link">
+					<div class="link-content">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-journal" viewBox="0 0 16 16">
+						  <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+						  <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
+						</svg>
+						<span class="catalog-place">Каталог</span>
+					</div>
+				</a>
+			</div>
+		</div>
+
+		<div class="catalog-overlay" id="catalog-overlay">
+	    	<div class="catalog-menu">
+        		<!-- Здесь размещаем выборы категорий -->
+        		<div class="catalog-header">
+    				<p>Каталог товаров</p>
+    			</div>
+		        <ul>
+		            {% if categories %}
+						<!-- Отображение категорий -->
+						{% for category in categories %}
+							<li><a href="{% url 'category_products' category.id %}">{{ category.name }}</a></li>
+						{% endfor %}
+					{% endif %}
+		        </ul>
+		    </div>
+		</div>
+
+	    <form method="GET" action="{% url 'log' %}">
+			<div class="search-bar">
+				<input type="text" id="search-input" name="q" placeholder="Поиск товаров...">
+				<button type="submit">
+					<svg class="search_logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#333333">
+						<path d="M0 0h24v24H0z" fill="none"/>
+						<path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+					</svg>
+				</button>
+			</div>
+		</form>
+
+	    <div class="chat-bar">
+	    	<div class="links">
+	        	<a href="{% url 'chat' %}" target="_self">
+	            	<div class="link-content">
+	                	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chat-right-text" viewBox="0 0 16 16">
+						  <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+						  <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+						</svg>
+		            	<span class="chat-place" href="{% url 'chat' %}" target="_self">Чаты</span>
+		        	</div>
+		    	</a>
+		    </div>
+		</div>
+		<div class="user-finance-selling-bar">
+			<div class="links">
+				<a href="{% url 'sales_history' %}">
+					 <div class="link-content">
+						 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+							  <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/>
+							  <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z"/>
+							  <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z"/>
+							  <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567"/>
+						 </svg>
+						 <span>Продажи</span>
+					 </div>
+				</a>
+			</div>
+		</div>
+		<div class="user-finance-bar">
+			<div class="links">
+				 <a href="{% url 'finance' %}">
+					 <div class="link-content">
+						 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+						   <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
+						 </svg>
+						 <span>Покупки</span>
+						 <div>
+							<p>Баланс: {{ finance.balance }}</p>
+						 </div>
+					 </div>
+				 </a>
+			</div>
+		</div>
+	    <div class="user-profile">
+		    <img src="{% if user_avatar %}{{ user_avatar }}{% else %}{% static 'main/img/default-avatar.png' %}{% endif %}" alt="" class="user-profile-image">
+		    <div class="dropdown">
+		        <div class="dropdown-content">
+		            <a href="{% url 'profile_user' username=user.username %}">
+						<svg xmlns="http://www.w3.org/2000/svg" class="profile-icon" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+						  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+						</svg>
+		                <span class="profile-link" id="profile-link-upper">{{ request.user }}</span>
+		                <span class="profile-description">Профиль</span>
+		            </a>
+		            <a href="{% url 'settings_user' %}">
+						<svg xmlns="http://www.w3.org/2000/svg" class="settings-icon" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+						  <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+						  <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+						</svg>
+		                <span class="profile-link">Настройки</span>
+		            </a>
+					<form action="{% url 'logout' %}" method="post">
+						{% csrf_token %}
+						<button type="submit">
+							<svg xmlns="http://www.w3.org/2000/svg" class="logout-icon" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+								<path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"/>
+								<path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+							</svg>
+							<span class="profile-link">Выход</span>
+						</button>
+					</form>
+		        </div>
+		    </div>
+		    <div class="dropdown-arrow"></div>
+		</div>
+	</header>
+
+<!--	<footer class="site-footer">-->
+<!--		<div class="footer-content">-->
+<!--			<p>&copy; 2024 Название компании. Все права защищены.</p>-->
+<!--		</div>-->
+<!--	</footer>-->
+    {% block meta-body %}
+    {% endblock %}
+</body>
+</html>

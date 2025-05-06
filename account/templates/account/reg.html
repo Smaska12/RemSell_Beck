@@ -1,0 +1,62 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block meta-title %}Регистрация{% endblock %}
+
+{% block meta-styles %}
+    <link rel="stylesheet" href="{% static 'main/css/registration.css' %}">
+    <link rel="stylesheet" href="{% static 'main/js/reg.js' %}">
+{% endblock %}
+
+{% block meta-body %}
+    <div class="registration-container">
+        <div class="entry-link">
+            <a href="{% url 'entry' %}">Войти</a>
+            <a href="{% url 'reg' %}">Регистрация</a>
+        </div>
+        <form method="post">
+        {% csrf_token %}
+        <!-- Поле "Имя пользователя" -->
+        <div class="form-group">
+            <label for="id_username">Имя пользователя:</label>
+            {{ form.username }}
+        </div>
+
+        <!-- Поле "Email" -->
+        <div class="form-group">
+            <label for="id_email">Email:</label>
+            {{ form.email }}
+        </div>
+
+        <!-- Поле "Пароль" -->
+        <div class="form-group">
+            <label for="id_password1">Пароль:</label>
+            {{ form.password1 }}
+        </div>
+
+        <!-- Поле "Подтверждение пароля" -->
+        <div class="form-group">
+            <label for="id_password2">Подтверждение пароля:</label>
+            {{ form.password2 }}
+        </div>
+
+        <!-- Отображение ошибок формы -->
+        {% if form.errors %}
+            {% for field in form %}
+                {% if field.errors %}
+                    <div class="error-message">
+                        <ul>
+                            {% for error in field.errors %}
+                                <li>{{ error|escape }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    </div>
+
+{% endblock %}

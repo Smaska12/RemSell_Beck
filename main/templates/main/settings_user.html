@@ -1,0 +1,121 @@
+{% extends 'main/log_layout.html' %}
+{% load static %}
+
+{% block meta-title %}RemSell{% endblock %}
+{% block meta-styles %}
+    <link rel="stylesheet" href="{% static 'main/css/settings_user.css' %}">
+    <script src="{% static 'main/js/settings_user_security.js' %}"></script>
+    <script src="{% static 'main/js/settings_user_email.js' %}"></script>
+    <script src="{% static 'main/js/settings_user_password.js' %}"></script>
+    <script src="{% static 'main/js/settings_user.js' %}"></script>
+    <script src="{% static 'main/js/settings_user_image.js' %}"></script>
+{% endblock %}
+{% block meta-body %}
+    <div class="settings-container">
+    <h2 class="user-name">{{ user_instance.username }}</h2>
+
+    <div class="user-info">
+        <div class="avatar-container">
+            <img class="avatar" src="{{ user_avatar }}" alt="Avatar" id="edit-avatar">
+        </div>
+        <div class="settings-actions">
+            <button type="button" class="settings-button" id="edit-username-btn">Имя пользователя</button>
+
+            <div id="edit-username-modal" class="modal">
+                <div class="modal-content">
+                    <div class="profile-nickname">
+                        <span class="close">&times;</span>
+                        <h2>Изменить имя пользователя</h2>
+                        <p class="user-name">Текущее имя пользователя: <span id="current-username">{{ user_instance.username }}</span></p>
+                        <form id="edit-username-form" class="modal-form" method="post">
+                            {% csrf_token %}
+                            <input type="text" id="new-username" name="new_username" placeholder="Новое имя пользователя" required>
+                            <button type="submit" id="save-username-btn" class="save-btn">Сохранить</button>
+                        </form>
+                    </div>
+                    <div class="profile-names">
+                        <h2>Информация о пользователе</h2>
+                        <p><strong>Имя:</strong> {{ first_name }}</p>
+                        <p><strong>Фамилия:</strong> {{ last_name }}</p>
+                        <p><strong>Отчество:</strong> {{ patronymic }}</p>
+                        <form id="edit-profile-form" class="modal-form" method="post">
+                            {% csrf_token %}
+                            <input type="text" id="first-name" name="first_name" placeholder="Имя" required>
+                            <input type="text" id="last-name" name="last_name" placeholder="Фамилия" required>
+                            <input type="text" id="patronymic" name="patronymic" placeholder="Отчество" required>
+                            <button type="submit" id="save-profile-btn" class="save-btn">Сохранить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <button type="submit" class="settings-button" id="edit-password-btn">Пароль</button>
+
+            <div id="edit-password-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Изменить пароль</h2>
+                    <form id="edit-password-form" class="modal-form" method="post">
+                        {% csrf_token %}
+                        {{ password_form.as_p }}
+                        <button type="submit" id="save-password-btn" class="save-btn">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+            <div id="password-updated-message" style="display: none;" class="password-updated-message">Пароль успешно обновлен!</div>
+
+
+            <button type="submit" class="settings-button" id="edit-email-btn">Уведомления</button>
+
+            <div id="edit-email-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Изменить почту</h2>
+                    <p><strong>Ваша почта:</strong> {{ user_email }}</p>
+                    <form id="edit-email-form" class="modal-form" method="post">
+                        {% csrf_token %}
+                        <input type="email" id="new-email" name="email" placeholder="Новый email" required>
+                        <button type="submit" id="save-email-btn" class="save-btn">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+            <div id="email-updated-message" style="display: none;" class="email-updated-message">Почта успешно обновлена!</div>
+
+
+            <button type="submit" class="settings-button" id="edit-security-btn">Настройки безопасности</button>
+
+            <div id="edit-security-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Изменить пароль</h2>
+                    <form id="edit-security-form" class="modal-form" method="post">
+                        {% csrf_token %}
+                        {{ security_settings_form.as_p }}
+                        <button type="submit" id="save-security-btn" class="save-btn">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="edit-avatar-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Изменить аватарку</h2>
+                    <form id="edit-avatar-form" class="modal-form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" id="avatar-input" name="avatar" accept="image/*" required>
+                        <button type="submit" id="save-avatar-btn" class="save-btn">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    var updateUsernameUrl = "{% url 'update_username' %}";
+    var updateUserpasswordUrl = "{% url 'update_password' %}";
+    var updateUseremailUrl = "{% url 'update_email' %}";
+    var updateUsersecurityUrl = "{% url 'update_security' %}";
+</script>
+{% endblock %}

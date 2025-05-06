@@ -1,0 +1,555 @@
+/* main/static/main/css/chat_mini.css */
+
+.product-details-container {
+    margin-left: 30%;
+}
+
+.product-catalog-details {
+    margin-top: 100px;
+}
+
+.announcement_element p {
+    float: right;
+}
+
+.announcement_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+
+.announcement_container p::first-letter {
+    text-transform: uppercase;
+}
+
+.announcement_container p {
+    cursor: default;
+}
+
+.announcement_element_1,
+.announcement_element_2 {
+    flex: 1; /* Распределить равномерно пространство между элементами */
+    margin-right: 20px; /* Добавьте отступы между элементами */
+}
+
+.short-description p {
+    font-size: 18px;
+}
+
+.product-details h3 {
+    font-size: 18px;
+    color: #888; /* Серый оттенок текста */
+    text-decoration: overline;
+    text-decoration-color: #999;
+}
+
+.product-details {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    width: 50%;
+    padding: 10px;
+}
+
+.product-details button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-details button:hover {
+    background-color: #0056b3; /* Изменение цвета при наведении */
+}
+
+.mini-chat-container {
+    position: fixed;
+    top: 100px; /* Задайте нужное расстояние сверху в зависимости от вашего дизайна */
+    right: 0;
+    margin-right: 10%;
+    background-color: #fff; /* Белый цвет фона */
+    border: 2px solid #ddd; /* Бордер для заметности */
+    border-radius: 5px;
+    padding: 10px;
+    width: 30%; /* Изначальная ширина чата */
+    height: 80vh; /* Изначальная высота чата */
+    display: flex;
+    flex-direction: column;
+}
+
+.mini-chat-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.message-full-box {
+    flex-grow: 1; /* Элемент займет всю доступную высоту родительского контейнера */
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    scrollbar-width: thin;
+    scrollbar-color: #cccccc;
+}
+
+.chat-message {
+    margin-bottom: 20px;
+}
+
+.product-details img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.message-sender {
+    font-size: 18px; /* Уменьшение размера имени пользователя в чате */
+    color: black;
+    font-weight: bold;
+}
+
+.message-sender::first-letter {
+    text-transform: uppercase;
+}
+
+.message-content {
+    font-size: 18px; /* Уменьшение размера имени пользователя в чате */
+    color: black;
+}
+
+.user-reviews {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+
+.review {
+    align-items: center;
+    max-width: 50%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.review-first-element {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Отступ между отзывами, если нужно */
+}
+
+.review-first-element a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    margin-right: 15px; /* Отступ между аватаркой и именем/товаром */
+}
+
+.review-first-element img {
+    width: 50px; /* Размер аватарки */
+    height: 50px; /* Размер аватарки */
+    object-fit: cover;
+    border-radius: 50%; /* Круглая аватарка */
+    margin-right: 10px; /* Отступ между аватаркой и именем */
+}
+
+.review-first-element .username {
+    font-weight: bold;
+    margin-right: 15px; /* Отступ между именем и товаром */
+}
+
+.review-content {
+    display: flex;
+    align-items: center;
+}
+
+.review-content a {
+    text-decoration: none;
+    color: #47a3ff;
+    margin-left: 5px; /* Отступ между текстом и ссылкой на товар */
+}
+
+.review-content img {
+    margin-left: 10px; /* Отступ между текстом и изображением отзыва */
+    max-width: 100px; /* Размер изображения отзыва */
+    height: auto;
+}
+
+
+.user-reviews ul li {
+    list-style: none;
+    padding: 10px;
+    border: 1px solid #ddd; /* Бордер для заметности отзывов */
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+}
+
+.review img {
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+    border-radius: 50%; /* Круглые аватарки */
+}
+
+.review p {
+    cursor: pointer;
+    font-size: 20px;
+    margin: 0;
+}
+
+.review p::first-letter {
+  text-transform: uppercase;
+}
+
+.review-content {
+    display: flex;
+    align-items: center;
+}
+
+.review-content p {
+    margin-right: 50px;
+}
+
+.review-content p::first-letter {
+    text-transform: uppercase;
+}
+
+.username {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.rating {
+    float: right;
+    text-align: right;
+}
+
+.review .rating svg {
+    width: 24px;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+}
+
+.review-main {
+    margin-top: 50px;
+}
+
+#review-filter-form {
+    max-width: 50%;
+}
+
+#review-filter-form label,
+#review-filter-form select,
+#review-filter-form button {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+
+
+.star::before,
+.star::after {
+  content: '\2605'; /* Star in unicode */
+  position: absolute;
+  color: transparent; /* Transparent color */
+}
+
+.star.highlighted::before {
+  color: gold; /* Gold color */
+}
+
+.star::before {
+  left: 0;
+  z-index: 1; /* Outline on top */
+}
+
+.star::after {
+  left: 0;
+  z-index: 2; /* Filled portion on top of the outline */
+}
+
+.star.highlighted::after {
+  content: '\2605'; /* Star in unicode */
+  position: absolute;
+  color: gold; /* Gold color */
+  overflow: hidden;
+  width: var(--star-fraction, 100%);
+}
+
+
+
+
+.star {
+  width: 64px;
+  height: 48px;
+  color: white;
+  cursor: pointer;
+}
+
+.star path {
+  stroke: black; /* Цвет обводки звезды */
+}
+
+.star:hover path,
+.star.active path {
+  fill: gold; /* Заполненный цвет звезды */
+}
+
+.filled-star {
+    width: 64px;
+    height: 48px;
+    stroke: black;
+  color: white; /* Серый цвет */
+  cursor: pointer; /* Убираем указательный курсор */
+}
+
+.rating-star {
+width: 48px;
+    height: 32px;
+    stroke: black;
+  color: white; /* Серый цвет */
+  cursor: default; /* Убираем указательный курсор */
+}
+
+.reviews-star {
+    width: 48px;
+    height: 32px;
+    stroke: black;
+    stroke: gold;
+    color: gold; /* Серый цвет */
+    cursor: default; /* Убираем указательный курсор */
+
+}
+
+.filled path {
+  fill: gold; /* Золотой цвет для заполненных звезд */
+  stroke: gold;
+}
+
+.half-filled path {
+  fill: gold; /* Золотой цвет для полузаполненных звезд */
+  clip-path: inset(0% 50% 0% 0%); /* Обрезаем половину звезды */
+}
+
+
+.review-header img {
+    max-width: 60px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 100%;
+}
+
+.user-reviews ul li {
+    list-style: none; /* Убираем маркеры списка */
+    padding: 0; /* Убираем отступы */
+    margin: 0;
+}
+
+.view_rating {
+    margin: 20px;
+}
+
+.view_rating_list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.view_rating p {
+    font-size: 18px;
+}
+
+.first-digit {
+    font-size: 2.2em; /* Размер шрифта */
+    font-weight: bold; /* Жирный шрифт */
+    vertical-align: baseline;
+}
+
+/* Стили для выпадающего списка */
+select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Стили для кнопки */
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ffd700; /* Цвет золота */
+    color: #333; /* Цвет текста */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ffdf00; /* Изменение цвета при наведении */
+}
+
+/* Стили для формы */
+#review-filter-form {
+    margin-bottom: 20px;
+}
+
+.payment-method select option,
+.delivery-method select option  {
+    color: black;
+}
+
+select option {
+    color: #ffd700; /* Золотой цвет */
+}
+
+select option[value=""], option[value="product"], option[value="seller"] {
+    color: black; /* Черный цвет */
+}
+
+
+
+
+.chat-box-header {
+	height: auto;
+	margin-top: -10px;
+	padding: 10px;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+
+.chat-box-header a {
+	text-decoration: none;
+}
+
+.chat-box-main-elements {
+    height: auto;
+    margin-bottom: -20px;
+    display: flex;
+}
+
+.chat-box-main-elements .name-chaters h1 {
+    cursor: pointer;
+    color: black;
+}
+
+.chat-box-main-elements .name-chaters p {
+    cursor: pointer;
+    color: green;
+    margin: -10px 0px 10px 5px;
+}
+
+.chat-box-main-elements .name-chaters h1,
+.chat-box-main-elements .name-chaters p {
+    flex-direction: column;
+}
+
+h1::first-letter {
+  text-transform: uppercase;
+}
+
+h1 {
+    cursor: default;
+}
+
+.icon-chaters img {
+    width: 60px;
+    height: 60px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 100%;
+}
+
+.mini-chat-container button {
+  padding: 6px 12px;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: rgb(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 100%;
+  float: right;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.mini-chat-container button:hover {
+  color: rgb(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.arrow {
+	font-size: 22px;
+}
+
+.mini-chat-container {
+    margin-top: 2%;
+    max-width: 500px;
+}
+
+.mini-chat-container input {
+  width: 88.8%;
+  flex: 1;
+  padding: 8px 8px 8px 3%;
+  border: none;
+  border-radius: 5px;
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+.mini-chat-container input:focus {
+  outline: none; /* Убираем обводку при фокусировке */
+}
+
+
+.review-form-container {
+    background-color: #f9f9f9;
+    margin-top: 10px;
+    border-radius: 8px;
+    padding: 20px;
+    width: 50%;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review-textarea {
+    width: 100%;
+    height: 100px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.sender_rating .rating {
+    display: flex;
+    align-items: center;
+}
+
+.submit-review-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.submit-review-btn:hover {
+    background-color: #45a049;
+}

@@ -1,0 +1,88 @@
+{% extends 'main/log_layout.html' %}
+{% load static %}
+
+{% block meta-title %}RemSell{% endblock %}
+{% block meta-styles %}
+    <link rel="stylesheet" href="{% static 'main/css/finance_page.css' %}">
+{% endblock %}
+{% block meta-body %}
+    <main>
+        <h1>Мои продажи</h1>
+        <div class="finance-details">
+            <h2>Мои продажи</h2>
+            <div class="tc-header text-bold">
+                <div class="hidden-xs mw150">Дата</div>
+                <div class="hidden-xs">Заказ</div>
+                <div>Описание</div>
+                <div class="hidden-xs mw150">Покупатель</div>
+                <div class="hidden-xs">Статус</div>
+                <div class="tc-price col-lg-2">Сумма</div>
+            </div>
+            <ul>
+                {% for sale in sales %}
+                <a href="{% url 'product_detail_with_chat' product_id=sale.product.id %}">
+                    <li>
+                        <div class="hidden-xs mw150"><p>{{ sale.created_at }}</p></div>
+                        <div class="hidden-xs"><p>#{{ sale.serial_number }}</p></div>
+                        <div><p>{{ sale.product.name }}</p></div>
+                        <div class="hidden-xs mw150"><p>{{ sale.user }}</p></div>
+                        {% if sale.transaction.is_cancelled %}
+                            <div class="hidden-xs">
+                                <p class="imitate-button-backend">Заказ отменен</p>
+                            </div>
+                        {% else %}
+                            <div class="hidden-xs">
+                                {% if not sale.delivered %}
+                                    <form id="cancel-form-{{ sale.id }}" method="post" action="{% url 'cancel_order' sale.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="cancel-button">Отменить заказ</button>
+                                    </form>
+                                {% else %}
+                                    <p>Доставлен</p>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        <div class="tc-price col-lg-2">
+                                {% if sale.transaction.is_cancelled %}
+                                    <p class="paid-negative">-{{ sale.total_amount }}</p>
+                                {% else %}
+                                    <p class="paid-positive">+{{ sale.total_amount }}</p>
+                                {% endif %}
+                        </div>
+                    </li>
+                </a>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+
+<!--    <script>-->
+<!--        document.addEventListener("DOMContentLoaded", function() {-->
+<!--            document.querySelectorAll('.ship-button').forEach(button => {-->
+<!--                button.addEventListener('click', function(event) {-->
+<!--                    event.preventDefault();-->
+<!--                    const orderId = this.dataset.orderId;-->
+<!--                    fetch(`/ship_order/${orderId}/`, {-->
+<!--                        method: 'POST',-->
+<!--                        headers: {-->
+<!--                            'X-CSRFToken': '{{ csrf_token }}',-->
+<!--                        },-->
+<!--                    })-->
+<!--                    .then(response => response.json())-->
+<!--                    .then(data => {-->
+<!--                        if (data.message === 'Order shipped') {-->
+<!--                            // Optionally update UI to reflect order status change-->
+<!--                            location.reload(); // Reload the page to reflect changes-->
+<!--                        } else {-->
+<!--                            // Optionally handle error messages-->
+<!--                            console.error('Error:', data.message);-->
+<!--                        }-->
+<!--                    })-->
+<!--                    .catch(error => {-->
+<!--                        console.error('Error:', error);-->
+<!--                    });-->
+<!--                });-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+{% endblock %}

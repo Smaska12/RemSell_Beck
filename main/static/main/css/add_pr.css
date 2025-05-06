@@ -1,0 +1,66 @@
+/* styles.css */
+.add-product-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.add-product-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.add-product-form .form-group {
+    margin-bottom: 20px;
+}
+
+.add-product-form label {
+    display: block;
+    font-weight: bold;
+}
+
+.add-product-form input[type="text"],
+.add-product-form input[type="number"],
+.add-product-form select,
+.add-product-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-product-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-product-btn:hover {
+    background-color: #0056b3;
+}
+
+
+.add-product-form .form-group {
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.add-product-form label {
+    font-weight: bold;
+    flex: 1;
+    min-width: 150px; /* Минимальная ширина label */
+    margin-right: 10px; /* Расстояние между label и полем ввода */
+}
+
+.description-field {
+        resize: none;
+}

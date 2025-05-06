@@ -1,0 +1,41 @@
+{% extends 'main/log_layout.html' %}
+{% load static %}
+
+{% block meta-title %}RemSell{% endblock %}
+{% block meta-styles %}
+	<link rel="stylesheet" href="{% static 'main/css/add_pr.css' %}">
+    <script src="{% static 'main/js/add_product.js' %}"></script>
+{% endblock %}
+{% block meta-body %}
+    <div class="add-product-container">
+        <h1 class="add-product-title">Добавить товар</h1>
+        <form method="post" enctype="multipart/form-data" class="add-product-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_name">Название товара:</label>
+                {{ form.name }}
+            </div>
+            <div class="form-group">
+                <label for="id_description">Описание товара:</label>
+                {{ form.description }}
+            </div>
+            <div class="form-group">
+                <label for="id_quantity">Количество:</label>
+                {{ form.quantity }}
+            </div>
+            <div class="form-group">
+                <label for="id_image">Изображение товара:</label>
+                {{ form.image }}
+            </div>
+            <div class="form-group">
+                <label for="id_category">Категории:</label>
+                {{ form.categories }}
+            </div>
+            <div class="form-group">
+                <label for="id_price">Цена:</label>
+                {{ form.price }}
+            </div>
+            <button type="submit" class="add-product-btn">Добавить</button>
+        </form>
+    </div>
+{% endblock %}

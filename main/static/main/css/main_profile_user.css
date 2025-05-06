@@ -1,0 +1,405 @@
+.user-profile {
+
+}
+
+.avatar-info {
+    display: flex;
+    align-items: center;
+}
+
+.avatar-info img {
+    margin-right: 10px; /* Небольшое расстояние между аватаркой и именем */
+    width: 200px;
+    height: 200px;
+    border: none;
+    border-radius: 100%;
+}
+
+.truncate {
+    display: flex;
+    width: 100px; /* Ширина блока, в котором нужно обрезать текст */
+    white-space: nowrap; /* Запрет переноса строки */
+    overflow: hidden; /* Скрытие не помещающегося текста */
+    text-overflow: ellipsis; /* Добавление многоточия для обрезанного текста */
+}
+
+.name-status {
+    display: flex;
+    flex-direction: column;
+}
+
+.name-status h2::first-letter {
+    text-transform: uppercase;
+}
+
+.user-status {
+    color: green; /* Цвет зеленый */
+    font-size: 16px; /* Уменьшить размер шрифта */
+}
+
+.user-info {
+    margin-top: 100px;
+    margin-bottom: 20px;
+    margin-left: 10%;
+}
+
+.user-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile-info {
+    margin-top: 20px;
+}
+
+.profile-info-bio {
+    width: 50%;
+    border: 1px solid #ccc; /* Рамка */
+    border-radius: 5px;
+    padding: 10px; /* Отступ внутри рамки */
+    margin: 20px auto 5%; /* Центрирование по горизонтали и отступ сверху */
+}
+
+.editable-bio {
+    align-items: center;
+    max-height: 300px; /* Задаем максимальную высоту блока */
+    overflow: auto; /* Добавляем прокрутку, если текст превышает высоту */
+    scrollbar-width: thin;
+    scrollbar-color: #cccccc; /* Цвет полосы прокрутки и фона */
+}
+
+.editable-bio textarea {
+    margin-left: 25%;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.user-bio #bio-textarea {
+    resize: none !important;
+    margin-top: 10px;
+    width: 100%;
+    height: 500px;
+    border: 1px solid #ccc; /* Добавляем рамку */
+    border-radius: 5px; /* Закругляем углы */
+    padding: 10px; /* Добавляем отступ внутри текстовой области */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Изменяем параметры тени */
+    scrollbar-width: thin;
+    scrollbar-color: #cccccc; /* Цвет полосы прокрутки и фона */
+}
+
+#save-bio-btn {
+    float: right; /* Переместить кнопку вправо */
+}
+
+#edit-bio-btn {
+    padding: 5px;
+    border: none;
+    background-color: white;
+    color: black;
+    float: right; /* Переместить кнопку вправо */
+    transition: color 0.3s ease
+}
+
+#edit-bio-btn:hover {
+    color: blue;
+}
+
+#edit-bio-btn svg {
+    width: auto;
+    height: 24px;
+}
+
+#save-bio-btn {
+    padding: 5px;
+    border: none;
+    background-color: white;
+    color: black;
+    float: right; /* Переместить кнопку вправо */
+    transition: color 0.3s ease
+}
+
+#save-bio-btn:hover {
+    color: blue;
+}
+
+#save-bio-btn svg {
+    width: auto;
+    height: 24px;
+}
+
+.product-filter {
+    margin-bottom: 20px;
+}
+
+.product-filter h3 {
+    margin-bottom: 10px;
+}
+
+h2 {
+    display: inline-block; /* Разместить заголовок и кнопку на одной строке */
+}
+
+.user-activity {
+    margin-bottom: 20px;
+}
+
+.user-activity ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.user-activity ul li {
+    display: flex;
+    flex-direction: column;
+    width: calc(15% - 20px);  /*Ширина элемента примерно 1/3 ширины контейнера */
+    margin: 10px; /* Расстояние между элементами */
+    text-align: center;
+}
+
+.dt1 {
+    clear: both;
+    font-size: 17px;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    line-height: 1.35;
+    transition: color .3s ease-out;
+    height: 3rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 7px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.dt {
+    font-size: 14px;
+    font-size: .8125rem;
+    line-height: 1.4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    height: 40px;
+    color: var(--body-color);
+}
+
+.user-activity ul li a {
+    display: block;
+    text-decoration: none;
+}
+
+.user-activity ul li img {
+    width: 100%;
+    height: 30vh;
+    object-fit: cover;
+}
+
+.product-details-profile {
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.product-details-profile p {
+    margin: 0;
+}
+
+.product-details-profile p.product-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.product-details-profile p.product-date {
+    color: #999;
+    font-size: 0.9em;
+}
+
+.user-activity li {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.3s ease;
+}
+
+.user-activity li:hover {
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.created_products_by_profile {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    width: 200px;
+    vertical-align: top;
+}
+
+.created_products_by_profile img {
+    width: 200px;
+}
+
+.product-details-profile {
+    margin-top: 10px;
+}
+
+.product-details-profile p {
+    color: black;
+}
+
+.product-title {
+    font-weight: bold;
+}
+
+.product-date {
+    font-size: 12px;
+}
+
+
+.review-header img {
+    max-width: 60px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 100%;
+}
+
+.user-reviews ul li {
+    list-style: none; /* Убираем маркеры списка */
+    padding: 0; /* Убираем отступы */
+    margin: 0;
+}
+
+.view_rating {
+    margin: 20px;
+}
+
+.view_rating_list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.view_rating p {
+    font-size: 18px;
+}
+
+.first-digit {
+    font-size: 2.2em; /* Размер шрифта */
+    font-weight: bold; /* Жирный шрифт */
+    vertical-align: baseline;
+}
+
+/* Стили для выпадающего списка */
+select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Стили для кнопки */
+.product-filter button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #ffd700; /* Цвет золота */
+    color: #333; /* Цвет текста */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.product-filter button:hover {
+    background-color: #ffdf00; /* Изменение цвета при наведении */
+}
+
+.user-bio button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #ffd700; /* Цвет золота */
+    color: #333; /* Цвет текста */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.user-bio button:hover {
+    background-color: #ffdf00; /* Изменение цвета при наведении */
+}
+
+/* Стили для формы */
+#review-filter-form {
+    margin-bottom: 20px;
+}
+
+select option {
+    color: #ffd700; /* Золотой цвет */
+}
+
+select option[value=""], option[value="product"], option[value="seller"] {
+    color: black; /* Черный цвет */
+}
+
+select option[value="0"], option[value="product"], option[value="seller"] {
+    color: black; /* Черный цвет */
+}
+
+
+.star {
+  width: 32px;
+    height: 16px;
+  color: white;
+  cursor: pointer;
+}
+
+.star path {
+  stroke: black; /* Цвет обводки звезды */
+}
+
+.star:hover path,
+.star.active path {
+  fill: gold; /* Заполненный цвет звезды */
+}
+
+.filled-star {
+    width: 32px;
+    height: 16px;
+    stroke: black;
+  color: white; /* Серый цвет */
+  cursor: pointer; /* Убираем указательный курсор */
+}
+
+.rating-star {
+width: 32px;
+    height: 16px;
+    stroke: black;
+  color: white; /* Серый цвет */
+  cursor: pointer; /* Убираем указательный курсор */
+}
+
+.reviews-star {
+    width: 32px;
+    height: 16px;
+    stroke: black;
+    stroke: gold;
+    color: gold; /* Серый цвет */
+    cursor: default; /* Убираем указательный курсор */
+
+}
+
+.filled path {
+  fill: gold; /* Золотой цвет для заполненных звезд */
+  stroke: gold;
+}
+
+.half-filled path {
+  fill: gold; /* Золотой цвет для полузаполненных звезд */
+  clip-path: inset(0% 50% 0% 0%); /* Обрезаем половину звезды */
+}
+
+
+
+
+
+
+

@@ -1,0 +1,68 @@
+{% extends 'main/log_layout.html' %}
+{% load static %}
+
+{% block meta-title %}Чаты{% endblock %}
+
+{% block meta-styles %}
+    <link rel="stylesheet" href="{% static 'main/css/chat.css' %}">
+	<script src="{% static 'main/js/test2_chat_update.js' %}"></script>
+{% endblock %}
+
+{% block meta-body %}
+    <div class="chat-container" id="chat-container">
+		<div class="user-box">
+			<div class="user-header-bar">
+				<h2>Сообщения</h2>
+			</div>
+			<div class="user-list">
+				<ul>
+					{% for chat in user_chats %}
+						{% if chat.participants.count == 2 %}
+							<li data-chat-id="{{ chat.id }}">
+								<div class="user-avatar">
+                                    <img src="{{ chat.interlocutor_avatar }}" alt="{{ chat.name }}">
+                                </div>
+								<a class="chatters-name-list" href="{% url 'view_chat' chat.id %}">{{ chat.name }}</a>
+							</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+
+		<div class="chat-box">
+			<div>
+
+			</div>
+		</div>
+
+		<div class="chat-input">
+				<form id="message-form" data-send-message-url="{% url 'send_message' %}">
+					{% csrf_token %}
+					<input type="hidden" id="chat-id" name="chat_id" value="{{ chat.id }}">
+				</form>
+		</div>
+
+		<div class="group-chat-box">
+			<div class="user-header-bar">
+
+			</div>
+			<div class="reg-interlocutor-info">
+
+			</div>
+		</div>
+	</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.user-list li').click(function() {
+            	var chatId = $(this).data('chat-id');
+                var url = $(this).find('a').attr('href') + '?chat_id=' + chatId;
+                if (url) {
+                    window.location.href = url;
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends 'main/log_layout.html' %}
+{% load static %}
+
+{% block meta-title %}RemSell{% endblock %}
+{% block meta-styles %}
+    <link rel="stylesheet" href="{% static 'main/css/product_page.css' %}">
+    <script src="{% static 'main/js/mini_chat.js' %}"></script>
+    <script src="{% static 'main/js/rating.js' %}"></script>
+    <script src="{% static 'main/js/rating_of_product.js' %}"></script>
+{% endblock %}
+{% block meta-body %}
+	<main class="product-catalog-details">
+        <div class="product-details-container">
+            <div class="product-details">
+                <div class="announcement_element">
+                    <p>{{ product.created_at }}</p>
+                    <h1>{{ product.name }}</h1>
+                </div>
+
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+
+                <div class="announcement_container">
+                    <div>
+                        <h3>Продавец</h3>
+                        <p>{{ product.seller.username }}</p>
+                    </div>
+                    <div>
+                        <h3>Количество</h3>
+                        <p>{{ product.quantity }}</p>
+                    </div>
+                    <div>
+                        <h3>Категории</h3>
+                        <div class="truncate" id="truncateText">
+                            {% for category in product_categories %}
+                                {{ category.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </div>
+                        <p>{{ product.category.name }}</p>
+                    </div>
+                    <div>
+                        <h3>Цена</h3>
+                        <p>{{ product.price }}</p>
+                    </div>
+                </div>
+
+                <div class="short-description">
+                    <h3>Краткое описание: </h3>
+                    <p>{{ product.description|linebreaksbr }}</p>
+                </div>
+
+                <div class="view_rating">
+                    <h3>Средняя оценка товара</h3>
+                    <div class="view_rating_list">
+                        <p><span class="first-digit">{{ avg_rating|floatformat:2|default:"0"|first }}</span>{{ avg_rating|floatformat:2|slice:"1:" }} из 5,00</p>
+                        <div class="rating" data-rating="{{ avg_rating }}">
+                            <svg class="star-1 rating-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                            </svg><svg class="star-2 rating-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                            </svg><svg class="star-3 rating-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                            </svg><svg class="star-4 rating-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                            </svg><svg class="star-5 rating-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="review-main">
+                <div class="review-header">
+                    <h2>Отзывы:</h2>
+                </div>
+                <ul class="user-reviews">
+                    {% for review in reviews %}
+                    <li class="review">
+                        <div class="rating">
+                            {% for i in stars_range %}
+                                {% if i <= review.value %}
+                                    <svg class="reviews-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                {% else %}
+                                    <svg class="rating-star" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="review-first-element">
+                            <img src="{{ review.user.userprofile.avatar.url }}" alt="User Avatar">
+                            <div class="review-content">
+                                <p class="username">{{ review.user.username }}</p>
+                                <p>
+                                    {% if review.product %}
+                                        <a href="{{ review.product.get_absolute_url }}">{{ review.product.name }}</a>
+                                    {% else %}
+                                        <a href="{{ review.seller.get_absolute_url }}">Товар снят с продажи</a>
+                                    {% endif %}
+                                </p>
+
+                                {% if review.image %}
+                                    <img src="{{ review.image.url }}" alt="Review Image">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <p>{{ review.review }}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    var textElement = document.getElementById("truncateText");
+    var textContent = textElement.textContent.trim(); // Get the text content and remove leading/trailing spaces
+
+    // Split text content into words using comma as separator
+    var words = textContent.split(", ");
+
+    if (words.length >= 2) {
+        // Take the first five words
+        var slicedText = words.slice(0, 2).join(", ");
+        slicedText += " ...";
+        textElement.textContent = slicedText;
+    }
+});
+</script>
+
+{% endblock %}

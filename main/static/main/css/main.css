@@ -1,0 +1,352 @@
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    z-index: 1000;
+    padding: 5px 100px; /* Устанавливаем одинаковое значение padding для всех сторон */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-sizing: border-box; /* Включаем box-sizing: border-box; */
+}
+
+.img {
+    height: 50vh;
+    width: auto;
+    border-radius: 2px;
+}
+
+.logotip {
+    max-width: 100px; /* Уменьшаем размер лого пользователя */
+    border: 7px solid ##0d918f;
+    border-radius: 50% 50% 50% 50%;
+}
+
+.user-profile-image {
+    width: 60px;
+    height: 60px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 100%;
+
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    padding: 10px; /* Увеличение отступов */
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 8px; /* Увеличение отступов */
+}
+
+.search-bar button {
+    background-color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    margin-left: 10px; /* Добавление отступа между input и button */
+}
+
+.search_logo {
+    width: 25px;
+    height: 20px;
+}
+
+.search-bar button:hover .search_logo {
+    fill: #007bff; /* Изменение цвета иконки при наведении */
+}
+
+.links a {
+    display: flex;
+    align-items: center;
+    color: #333333;
+    text-decoration: none;
+    font-size: 22px;
+    transition: color 0.4s ease;
+}
+
+.links a:hover {
+    color: #007bff;
+}
+
+.link-content span {
+    margin-right: 10px; /* Добавляем небольшой отступ между иконкой и текстом */
+}
+
+.link-content div {
+    font-size: 16px; /* Уменьшаем размер текста */
+    color: #888888; /* Устанавливаем серый цвет текста */
+}
+
+.user-finance-bar {
+    margin-bottom: -20px;
+}
+
+svg,
+span {
+    vertical-align: middle;
+}
+
+.user-finance-selling-bar {
+    position: relative;
+}
+
+
+
+.catalog-header {
+    margin-bottom: 20px;
+}
+
+.catalog-header p {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
+}
+
+.catalog-bar {
+    position: relative;
+}
+
+/*.catalog-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}*/
+
+.catalog-overlay {
+    display: none;
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    width: 100%;
+    height: 100%;
+    background: none;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.catalog-menu {
+    background: #fff;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+.catalog-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.catalog-menu li {
+    margin: 10px 0;
+}
+
+.catalog-menu a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.1em;
+    transition: color 0.3s;
+}
+
+.catalog-menu a:hover {
+    color: #007bff;
+}
+
+
+
+main {
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333333;
+}
+
+.product-catalog {
+    display: flex;
+    flex-wrap: wrap;
+    /*justify-content: space-around;*/
+    max-width: 100%;
+    overflow-x: hidden;
+    padding: 20px;
+    margin: 100px;
+}
+
+.product-line-all {
+    display: flex;
+    max-width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.product {
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.product a {
+    text-decoration: none;
+    color: #333;
+}
+
+@media screen and (max-width: 768px) {
+    .product-card {
+        width: 50%;
+    }
+}
+/*
+.product-card {
+    background-color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    width: 800px;
+    height: auto;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+}
+
+.product-image {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    margin-right: 20px;
+    border-radius: 5px;
+}
+
+.product-image img {
+    width: 200px;
+    max-width: 100%;
+    height: 200px;
+    object-fit: Scale-down   ;
+    border-radius: 5px;
+}
+
+
+
+.product-details {
+    padding: 10px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card:hover {
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.product-card:active {
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.product-title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.product-description {
+    margin-bottom: 10px;
+    white-space: nowrap;
+    max-width: 250px;
+}
+
+.product-quantity {
+    margin-bottom: auto;
+    font-style: italic;
+}
+*/
+
+
+
+
+
+.add-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin: -20px 0px 10px 0px;
+}
+
+.add-product-button {
+    flex: 0 0 auto;
+}
+
+.add-product-btn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.border-text-container {
+    flex: 1 1 auto;
+    padding-left: 20px;
+    border-left: 1px solid #ccc;
+    color: #555;
+    font-size: 14px;
+    margin-left: 20px;
+}
+
+.add-product-btn:hover {
+    background-color: #0056b3;
+}
+
+
+
+/* Установка ширины скроллбара */
+/* Устанавливаем ширину и цвет скроллбара */
+body::-webkit-scrollbar {
+    width: 10px; /* Ширина */
+    background-color: #f1f1f1; /* Цвет фона */
+}
+
+/* Устанавливаем цвет ползунка скроллбара */
+body::-webkit-scrollbar-thumb {
+    background-color: #cccccc; /* Цвет ползунка */
+    transition: background-color 0.3s ease; /* Плавная анимация изменения цвета */
+}
+
+/* При наведении меняем цвет ползунка на более темный */
+body::-webkit-scrollbar-thumb:hover {
+    background-color: #999999; /* Новый цвет при наведении */
+}

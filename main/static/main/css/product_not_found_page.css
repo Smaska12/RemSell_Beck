@@ -1,0 +1,17 @@
+.-- {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Выравнивание по вертикали */
+}
+
+.-- .content {
+    text-align: center; /* Выравнивание по горизонтали */
+    padding: 20px;
+    border: 2px solid #ccc; /* Рамка */
+    border-radius: 10px; /* Скругление углов */
+}
+
+.-- h1, .-- p {
+    margin: 10px; /* Отступы между заголовком и текстом */
+}

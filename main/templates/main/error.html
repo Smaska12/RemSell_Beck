@@ -1,0 +1,14 @@
+{% extends 'main/log_layout.html' %}
+{% load static %}
+
+{% block meta-title %}RemSell{% endblock %}
+{% block meta-styles %}
+    <link rel="stylesheet" href="{% static 'main/css/finance_page.css' %}">
+{% endblock %}
+{% block meta-body %}
+	<main>
+        <h1>Error</h1>
+        <p>{{ message }}</p>
+    </main>
+
+{% endblock %}

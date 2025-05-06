@@ -1,0 +1,82 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block meta-title %}Вход{% endblock %}
+
+{% block meta-styles %}
+    <link rel="stylesheet" href="{% static 'main/css/registration.css' %}">
+    <link rel="stylesheet" href="{% static 'main/js/reg.js' %}">
+{% endblock %}
+
+{% block meta-body %}
+    <div class="registration-container">
+        <div class="entry-link">
+            <a href="{% url 'entry' %}">Войти</a>
+            <a href="{% url 'reg' %}">Регистрация</a>
+        </div>
+        <form id="login-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Имя пользователя:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <p class="error-message" id="error-message" style="color: red; display: none;"></p>
+            <button type="submit">Войти</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var loginForm = document.getElementById('login-form');
+            var errorMessage = document.getElementById('error-message');
+            const csrftoken = getCookie('csrftoken'); // Получение CSRF-токена
+
+            loginForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                var formData = new FormData(loginForm);
+
+                fetch('{% url 'entry' %}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        "X-CSRFToken": csrftoken
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = '{% url 'log' %}';
+                    } else {
+                        errorMessage.textContent = data.error_message;
+                        errorMessage.style.display = 'block'; // Показываем сообщение об ошибке
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка при отправке запроса:', error);
+                });
+            });
+        });
+
+        function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            var cookies = document.cookie.split(";");
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    </script>
+
+
+{% endblock %}

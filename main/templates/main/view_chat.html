@@ -1,0 +1,180 @@
+{% extends 'main/log_layout.html' %}
+{% load static %}
+
+{% block meta-title %}Чаты{% endblock %}
+
+{% block meta-styles %}
+    <link rel="stylesheet" href="{% static 'main/css/chat_view.css' %}">
+	<script src="{% static 'main/js/chat_update.js' %}"></script>
+{% endblock %}
+
+{% block meta-body %}
+    <div class="chat-container" id="chat-container">
+		<div class="user-box">
+			<div class="user-header-bar">
+				<h2>Сообщения</h2>
+			</div>
+			<div class="user-list">
+				<ul>
+					{% for chat in user_chats %}
+						{% if chat.participants.count == 2 %}
+							<a href="{% url 'view_chat' chat.id %}">
+								<li data-chat-id="{{ chat.id }}">
+									<div class="user-avatar">
+										<img src="{{ chat.interlocutor_avatar }}" alt="{{ chat.name }}">
+									</div>
+									<div class="chatters-name-list">{{ chat.name }}</div>
+								</li>
+							</a>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+
+		<div class="chat-box">
+			<div class="chat-box-header">
+				<div class="chat-box-main-elements">
+					<a href="{% url 'view_other_profile' interlocutor.username %}">
+						<div class="icon-chaters">
+							<img src="{{ interlocutor.userprofile.avatar.url }}" alt="{{ interlocutor.username }}">
+						</div>
+						<div class="name-chaters">
+							<h3>{{ interlocutor.username }}</h3>
+							<p class="user-status" id="user-status">{{ interlocutor.userprofile.status }}</p>
+						</div>
+					</a>
+				</div>
+
+				<div class="settings-icon1 unique-settings-icon">
+					<button class="settings-box-header" onclick="toggleDropdown()">...</button>
+					<div id="dropdown-content" class="dropdown-content">
+						<a href="#" onclick="reportUser('{{ interlocutor.id }}', '{{ chat.id }}')">Пожаловаться</a>
+						{% if current_user_is_blocker %}
+							<a href="#" onclick="unblockUser('{{ interlocutor.id }}', '{{ chat.id }}')">Разблокировать</a>
+						{% elif not user_is_blocked %}
+							<a href="#" onclick="blockUser('{{ interlocutor.id }}', '{{ chat.id }}')">Заблокировать</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="message-full-box" id="message-full-box">
+				{% for message in messages %}
+					<div class="chat-message">
+						<div class="message-sender">{{ message.sender.username }}</div>
+						<div class="message-content">{{ message.content|linebreaksbr }}</div>
+					</div>
+				{% endfor %}
+			</div>
+		    <div class="chat-input">
+				{% if not user_is_blocked %}
+					<form id="message-form" data-send-message-url="{% url 'send_message' %}">
+						{% csrf_token %}
+						<input type="hidden" id="chat-id" name="chat_id" value="{{ chat.id }}">
+						<input type="text" id="message-input" name="content" placeholder="Написать">
+						<button type="submit" class="arrow">➔</button>
+					</form>
+				{% endif %}
+			</div>
+		</div>
+
+		<div class="group-chat-box">
+			<div class="reg-interlocutor-info">
+				<ul>
+                	<p>Зарегистрирован: {{ interlocutor_registration_date }}</p>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+<script>
+    function blockUser(userId, chatId) {
+    $.ajax({
+        url: '/block_user/',
+        method: 'POST',
+        data: {
+            user_id: userId,
+            chat_id: chatId,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function(response) {
+            if (response.success) {
+                location.reload();  // Reload the page to update the block/unblock state
+            } else {
+                alert('Ошибка при блокировке пользователя: ' + response.error);
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Ошибка при блокировке пользователя: ' + error);
+        }
+    });
+}
+
+function unblockUser(userId, chatId) {
+    $.ajax({
+        url: '/unblock_user/',
+        method: 'POST',
+        data: {
+            user_id: userId,
+            chat_id: chatId,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function(response) {
+            if (response.success) {
+                location.reload();  // Обновление страницы для изменения состояния блокировки
+            } else {
+                alert('Ошибка при разблокировке пользователя: ' + response.error);
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Ошибка при разблокировке пользователя: ' + error);
+        }
+    });
+}
+
+function reportUser(userId, chatId) {
+    var reason = prompt("Пожалуйста, укажите причину вашей жалобы:");
+    if (reason !== null) {
+        $.ajax({
+            url: '/report_user/',
+            method: 'POST',
+            data: {
+                user_id: userId,
+                chat_id: chatId,
+                reason: reason,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert('Ваша жалоба отправлена успешно.');
+                    // Можете добавить дополнительные действия после отправки жалобы
+                } else {
+                    alert('Ошибка при отправке жалобы: ' + response.error);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Ошибка при отправке жалобы: ' + error);
+            }
+        });
+    }
+}
+
+
+// Function to get CSRF token from cookies (for Django)
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
+{% endblock %}

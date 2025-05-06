@@ -1,0 +1,214 @@
+/* main/css/finance_page.css */
+.finance-details {
+    padding: 50px;
+    overflow-x: auto;
+    text-align: center; /* Align elements horizontally in the center */
+}
+
+.tc-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px 0;
+   /* border-bottom: 1px solid #ccc;*/
+}
+
+.tc-header > div {
+    flex: 1;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Убираем подчеркивание и изменяем цвет ссылок */
+a {
+    text-decoration: none;
+    color: black;
+}
+
+/* Добавляем стили для ссылок внутри списка */
+ul a {
+    text-decoration: none;
+    color: black;
+}
+
+/* Убираем подчеркивание и изменяем цвет ссылок при наведении */
+a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+/* Убираем подчеркивание и изменяем цвет ссылок при наведении внутри списка */
+ul a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.not-paid {
+    font-weight: bold;
+    color: black; /* Цвет для неоплаченных заказов */
+}
+
+.paid-negative {
+    font-weight: bold;
+    color: red; /* Цвет для отрицательных сумм */
+}
+
+.paid-positive {
+    font-weight: bold;
+    color: green; /* Цвет для положительных сумм */
+}
+
+
+
+ul li > div {
+    flex: 1;
+    text-align: center; /* Center-align text within each div */
+}
+
+.pay-button {
+    background-color: #E62600; /*E62600 B30000*/
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pay-button:hover {
+    background-color: #B30000;
+}
+
+.cancel-button {
+    background-color: #E62600; /*E62600 B30000*/
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancel-button:hover {
+    background-color: #B30000;
+}
+
+.imitate-button-paid {
+    display: inline-block;
+    padding: 5px 10px; /* Регулируйте размеры отступов под свои нужды */
+    border: 1px solid #ccc; /* Любой цвет границы, который вам нравится */
+    border-radius: 5px; /* Для закругленных углов */
+    cursor: pointer; /* Меняет курсор на стрелку, чтобы показать, что элемент неактивен */
+}
+
+.imitate-button-paid.paid {
+    background-color: #5cb85c; /* Зеленый цвет для оплаченного */
+    color: white; /* Белый цвет текста */
+}
+
+.imitate-button-paid.not-paid {
+    background-color: #d9534f; /* Красный цвет для неоплаченного */
+    color: white; /* Белый цвет текста */
+}
+
+.imitate-button-backend {
+    display: inline-block;
+    padding: 5px 10px; /* Регулируйте размеры отступов под свои нужды */
+    /*border: 1px solid #ccc; *//* Любой цвет границы, который вам нравится */
+    border-radius: 5px; /* Для закругленных углов */
+    /*background-color: #FF7733;*/
+    color: #FF7733;
+    cursor: pointer;
+}
+
+
+
+.tc-header, .tc-item {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin: 0 auto;
+}
+.text-bold {
+    font-weight: bold;
+}
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+user agent stylesheet
+div {
+    display: block;
+}
+
+.tc-finance .tc-header>div {
+    border-bottom: none;
+}
+.tc-finance .tc-header>div, .tc-finance .tc-item>div {
+    padding-top: 16px;
+    padding-bottom: 17px;
+    border-top: #eaeaea 1px solid;
+    height: auto;
+}
+.tc-header>div {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-bottom: rgb(128,128,128) 1px solid;
+}
+.tc-header>div, .tc-header>[class^="col-"], .tc-header>[class*=" col-"], .tc-item>div, .tc-item>[class^="col-"], .tc-item>[class*=" col-"] {
+    display: table-cell;
+    float: none;
+    vertical-align: top;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+
+
+.finance-details {
+    overflow-x: auto;
+}
+
+.tc-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.tc-header > div {
+    flex: 1;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+ul li {
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+    transition: background-color 0.3s ease;
+}
+
+ul li:hover {
+    background-color: #f0f0f0; /* Измените на нужный вам цвет */
+}
+
+ul li > div {
+    flex: 1;
+    text-align: center; /* Center-align text within each div */
+}
+
+@media (max-width: 768px) {
+    .hidden-xs {
+        display: none;
+    }
+}
